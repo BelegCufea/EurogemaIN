@@ -134,6 +134,8 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ddPlugin\ddPlugin.tlb" />
+    <None Include="ddPlugin\Tvorba pluginu do IS Helios v MS Visual Studio.docx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,6 +144,7 @@
   <ItemGroup>
     <None Include="Resources\Ulozit16.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
