@@ -2368,7 +2368,9 @@ namespace EurogemaIN
             Helios.ExecSQL(SQL);
             foreach (DochazkaUprava item in DochazkaUpravy)
             {
-                SQL = "EXEC dbo.EGDochazkaSichtovkaAktualizuj "+CisloZam+", "+Rok+", "+Mesic+", "+item.Den+", N'"+item.Stredisko+"', N'"+item.Zakazka+"', N'"+item.Cinnost+"', "+item.Hodiny.ToString().Replace(",",".");
+                SQL = "UPDATE TabEGDochazkaDny SET Prepocteno = " + item.Hodiny.ToString().Replace(",", ".") + " WHERE CisloZam = " + CisloZam + " AND YEAR(Datum) = " + Rok + " AND Month(Datum) = " + Mesic + " AND Day(Datum) = " + item.Den + " AND Stredisko LIKE '" + item.Stredisko + "' AND Zakazka LIKE '" + item.Zakazka + "' AND Cinnost LIKE '" + item.Cinnost + "'";
+                Helios.ExecSQL(SQL); 
+                SQL = "EXEC dbo.EGDochazkaSichtovkaAktualizuj " + CisloZam + ", " + Rok + ", " + Mesic + ", " + item.Den + ", N'" + item.Stredisko + "', N'" + item.Zakazka + "', N'" + item.Cinnost + "', " + item.Hodiny.ToString().Replace(",", ".");
                 Helios.ExecSQL(SQL);
             }
 
