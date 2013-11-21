@@ -2225,7 +2225,7 @@ namespace EurogemaIN
                 {
                     foreach (var item in DochazkaSoucty)
                     {
-                        if (item.Svatek)
+                        if (item.Svatek && item.Hodiny > 0)
                         {
                             Polozka =
                                 (from d in DochazkaUpravy
@@ -2234,7 +2234,7 @@ namespace EurogemaIN
                                  select d).First();
                             Polozka.Hodiny -= 0.5;
                             Odecti -= 0.5;
-                            if (Odecti == 0)
+                            if (Odecti <= 0 || Polozka.Hodiny <= 0)
                                 break;
                         }
                     }
@@ -2256,7 +2256,7 @@ namespace EurogemaIN
                 {
                     foreach (var item in DochazkaSoucty)
                     {
-                        if (item.DenTydne == 7 && !item.Svatek)
+                        if (item.DenTydne == 7 && !item.Svatek && item.Hodiny > 0)
                         {
                             Polozka =
                                 (from d in DochazkaUpravy
@@ -2265,7 +2265,7 @@ namespace EurogemaIN
                                  select d).First();
                             Polozka.Hodiny -= 0.5;
                             Odecti -= 0.5;
-                            if (Odecti == 0)
+                            if (Odecti <= 0 || Polozka.Hodiny <= 0)
                                 break;
                         }
                     }
@@ -2343,7 +2343,7 @@ namespace EurogemaIN
                 {
                     foreach (var item in DochazkaSoucty)
                     {
-                        if (item.DenTydne == 6 && !item.Svatek)
+                        if (item.DenTydne == 6 && !item.Svatek && item.Hodiny > 0)
                         {
                             Polozka =
                                 (from d in DochazkaUpravy
@@ -2352,7 +2352,7 @@ namespace EurogemaIN
                                  select d).First();
                             Polozka.Hodiny -= 0.5;
                             Odecti -= 0.5;
-                            if (Odecti == 0)
+                            if (Odecti <= 0 || Polozka.Hodiny <= 0)
                                 break;
                         }
                     }
