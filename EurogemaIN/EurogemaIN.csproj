@@ -85,6 +85,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ZobrazDokument.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ChybovaHlaseni.resx">
