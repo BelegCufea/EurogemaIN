@@ -56,8 +56,8 @@
             // openFileDialogPiloty
             // 
             this.openFileDialogPiloty.DefaultExt = "*.xlsx";
-            this.openFileDialogPiloty.Filter = "Soubory excel (*.xls;*.xlsx;*.xlmx)|*.xls;*.xlsx;*.xlmx|Všechny soubory (*.*)|*.*" +
-                "";
+            this.openFileDialogPiloty.Filter = "Soubory excel (*.xls;*.xlsx;*.xlsm)|*.xls;*.xlsx;*.xlsm|Všechny soubory (*.*)|*.*" +
+    "";
             this.openFileDialogPiloty.Title = "Soubor s nabídkou";
             // 
             // buttonImport
