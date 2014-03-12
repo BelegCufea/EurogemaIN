@@ -61,6 +61,13 @@
       <DependentUpon>DochazkaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DochazkaTisk.cs" />
+    <Compile Include="ImportOutlook.cs" />
+    <Compile Include="ImportOutlookForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportOutlookForm.Designer.cs">
+      <DependentUpon>ImportOutlookForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportPiloty.cs" />
     <Compile Include="ImportPilotyForm.cs">
       <SubType>Form</SubType>
@@ -94,6 +101,9 @@
     <EmbeddedResource Include="DochazkaForm.resx">
       <DependentUpon>DochazkaForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ImportOutlookForm.resx">
+      <DependentUpon>ImportOutlookForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImportPilotyForm.resx">
       <DependentUpon>ImportPilotyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +129,24 @@
       <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Outlook">
+      <Guid>{00062FFF-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
