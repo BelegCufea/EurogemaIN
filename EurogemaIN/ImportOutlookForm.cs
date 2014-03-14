@@ -81,6 +81,7 @@ namespace EurogemaIN
                 EnumerateFolders(folder, folderNode);
                 FolderTreeView.Nodes.Add(folderNode);
             }
+            FolderTreeView.Sort();
             Postup.Hide();
         }
 
@@ -92,7 +93,7 @@ namespace EurogemaIN
             if (Postup == null)
                 Postup = new Progress();
             Postup.Show();
-            Postup.label_Popis.Text = "Načítají se zprávy poštovní schránky";
+            Postup.label_Popis.Text = "Načítají se zprávy poštovní schránky " + e.Node.FullPath;
             Postup.label_Prvek.Text = "";
             Postup.progressBar_Postup.Value = 0;
             Postup.Show();
@@ -117,30 +118,36 @@ namespace EurogemaIN
                 }
             }
 
-            Outlook.Items mails = mailFolder.Items;
-            mails.Sort("[ReceivedTime]", true);
+            Outlook.Table mailsTable = mailFolder.GetTable(Type.Missing, Outlook.OlTableContents.olUserItems);
+            mailsTable.Columns.RemoveAll();
+            mailsTable.Columns.Add("EntryID");
+            mailsTable.Columns.Add("SenderName");
+            mailsTable.Columns.Add("Subject");
+            mailsTable.Columns.Add("Size");
+            mailsTable.Columns.Add("ReceivedTime");
+            mailsTable.Sort("ReceivedTime", Outlook.OlSortOrder.olDescending);
 
-            Int32 Celkem = mails.Count;
+            Int32 Celkem = mailsTable.GetRowCount();
             Int32 Krok = 1;
             Postup.progressBar_Postup.Maximum = Celkem;
 
-            foreach (Outlook.MailItem mail in mails.OfType<Outlook.MailItem>())
+            while (!mailsTable.EndOfTable)
             {
-                ListViewItem item = new ListViewItem(mail.EntryID);
+                Outlook.Row nextRow = mailsTable.GetNextRow();
                 Postup.label_Prvek.Text = Krok++.ToString() + "/" + Celkem.ToString();
                 Postup.progressBar_Postup.PerformStep();
                 Postup.Refresh();
-                item.SubItems.Add(mail.Sender.Name);
-                item.SubItems.Add(mail.Subject ?? "");
-                item.SubItems.Add(mail.Size.ToString());
-                item.SubItems.Add(mail.ReceivedTime.ToString());
+                ListViewItem item = new ListViewItem(nextRow["EntryID"]);
+                item.SubItems.Add(nextRow["SenderName"] ?? "");
+                item.SubItems.Add(nextRow["Subject"] ?? "");
+                item.SubItems.Add(((Double)(nextRow["Size"] / 1024)).ToString("#,0 kB"));
+                item.SubItems.Add(nextRow["ReceivedTime"].ToString());
                 MessageListView.Items.Add(item);
             }
 
             Postup.Hide();
 
             MessageListView.EndUpdate();
-
         }
 
         private void OpenButton_Click(object sender, EventArgs e)
