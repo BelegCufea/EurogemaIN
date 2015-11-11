@@ -793,10 +793,16 @@ namespace EurogemaIN
                     return;
                 }
             }
-            SectiHodiny(Text);
+            if (!SectiHodiny(Text))
+            {
+                e.Cancel = true;
+                Text.SelectAll();
+                Helios.Error("Celkový počet odpracovaných hodin za den může být maximálně 12");
+                return;
+            }
         }
 
-        private void SectiHodiny(TextBox Text)
+        private Boolean SectiHodiny(TextBox Text)
         {
             TableLayoutPanel DenTable = (TableLayoutPanel)Text.Parent;
             Int32 Sloupec = ZjistiSloupec(Text);
@@ -829,6 +835,10 @@ namespace EurogemaIN
                     Popisek.ForeColor = System.Drawing.Color.Blue;
                 }
             }
+            if (HodinyC > 12)
+                return false;
+            else
+                return true;
         }
 
         private Int32 ZjistiSloupec(Control control)
@@ -1199,7 +1209,7 @@ namespace EurogemaIN
         
         private void PodbarviFocusRadku(Int32 Tyden, Int32 Radek)
         {
-            if ((Tyden == FocusRadek) && (Radek == FocusRadek))
+            if ((Tyden == FocusTyden) && (Radek == FocusRadek))
                 return;
 
             TableLayoutPanel Formular;
@@ -2115,7 +2125,10 @@ namespace EurogemaIN
         private void button_UlozitAkce_Click(object sender, EventArgs e)
         {
             if (UlozitAkce())
+            {
+                UlozitAkce();
                 Helios.Info("Doplňkové inormace uloženy");
+            }
         }
 
         private Boolean UlozitAkce()
@@ -2216,33 +2229,33 @@ namespace EurogemaIN
 
             //if (Zustatek > 32)
             //{
-                Zustatek -= _PrescasySv;
-                PrescasySv = _PrescasyC - Zustatek;
-                _PrescasySv -= PrescasySv;
-                _PrescasyC = Zustatek;
-                Odecti = PrescasySv;
-                while (Odecti != 0)
-                {
-                    foreach (var item in DochazkaSoucty)
-                    {
-                        if (item.Svatek && item.Hodiny > 0)
-                        {
-                            Polozka =
-                                (from d in DochazkaUpravy
-                                 where d.Den == item.Den && d.Prace
-                                 orderby d.Hodiny descending
-                                 select d).First();
-                            Polozka.Hodiny -= 0.5;
-                            Odecti -= 0.5;
-                            if (Odecti <= 0 || Polozka.Hodiny <= 0)
-                                break;
-                        }
-                    }
-                    DochazkaSoucty =
-                        (from p in DochazkaUpravy.Where(w => w.Prace == true).GroupBy(g => g.Den).Select(s => new { Den = s.Key, Hodiny = s.Sum(a => a.Hodiny) })
-                         join d in DochazkaUpravy on p.Den equals d.Den
-                         select new { Den = p.Den, p.Hodiny, d.DenTydne, d.Svatek }).Distinct();
-                }
+                //Zustatek -= _PrescasySv;
+                //PrescasySv = _PrescasyC - Zustatek;
+                //_PrescasySv -= PrescasySv;
+                //_PrescasyC = Zustatek;
+                //Odecti = PrescasySv;
+                //while (Odecti != 0)
+                //{
+                //    foreach (var item in DochazkaSoucty)
+                //    {
+                //        if (item.Svatek && item.Hodiny > 0)
+                //        {
+                //            Polozka =
+                //                (from d in DochazkaUpravy
+                //                 where d.Den == item.Den && d.Prace
+                //                 orderby d.Hodiny descending
+                //                 select d).First();
+                //            Polozka.Hodiny -= 0.5;
+                //            Odecti -= 0.5;
+                //            if (Odecti <= 0 || Polozka.Hodiny <= 0)
+                //                break;
+                //        }
+                //    }
+                //    DochazkaSoucty =
+                //        (from p in DochazkaUpravy.Where(w => w.Prace == true).GroupBy(g => g.Den).Select(s => new { Den = s.Key, Hodiny = s.Sum(a => a.Hodiny) })
+                //         join d in DochazkaUpravy on p.Den equals d.Den
+                //         select new { Den = p.Den, p.Hodiny, d.DenTydne, d.Svatek }).Distinct();
+                //}
 
             //}
             //if (Zustatek > 32)
@@ -2400,6 +2413,7 @@ namespace EurogemaIN
             IHeQuery Hodinovky = Helios.OpenSQL(SQL);
             Double Hodinovka = Hodinovky.EOF() ? 0 : Hodinovky.FieldValues(0);
             Double Premie = (Double)(PrescasyD * 1 + PrescasyS * 1.5 + PrescasyN * 1.75 + PrescasySv * 2) * Hodinovka;
+            Premie = 50 * Math.Round((Premie + 24) / 50.0);
             Premie += Odmena;
             Premie = 5 * (int)Math.Round(Premie / 5.0);
             Double Svatky = DochazkaUpravy.Where(w => w.Cinnost == "S").Count();

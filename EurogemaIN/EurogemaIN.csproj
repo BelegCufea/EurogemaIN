@@ -30,10 +30,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ddPlugin">
       <HintPath>..\..\ddPlugin\ddPlugin.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,6 +98,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SchvalovaniFaktury.cs" />
+    <Compile Include="SchvalovaniFakturyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SchvalovaniFakturyForm.Designer.cs">
+      <DependentUpon>SchvalovaniFakturyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZobrazDokument.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +126,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SchvalovaniFakturyForm.resx">
+      <DependentUpon>SchvalovaniFakturyForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +181,7 @@
   <ItemGroup>
     <None Include="ddPlugin\ddPlugin.tlb" />
     <None Include="ddPlugin\Tvorba pluginu do IS Helios v MS Visual Studio.docx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
