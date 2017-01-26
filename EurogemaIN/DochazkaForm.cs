@@ -2412,7 +2412,7 @@ namespace EurogemaIN
             SQL = "SELECT ZM.ZakladniPlat FROM TabZamMzd AS ZM INNER JOIN TabCisZam AS CZ ON CZ.ID = ZM.ZamestnanecId INNER JOIN TabMzdObd AS MO ON MO.IdObdobi = ZM.IdObdobi WHERE CZ.Cislo = " + CisloZam + " AND MO.Rok = " + Rok + " AND MO.Mesic = " + Mesic;
             IHeQuery Hodinovky = Helios.OpenSQL(SQL);
             Double Hodinovka = Hodinovky.EOF() ? 0 : Hodinovky.FieldValues(0);
-            Double Premie = (Double)(PrescasyD * 1 + PrescasyS * 1.5 + PrescasyN * 1.75 + PrescasySv * 2) * Hodinovka;
+            Double Premie = (Double)(PrescasyD * 1.25 + PrescasyS * 1.5 + PrescasyN * 1.75 + PrescasySv * 2) * Hodinovka;
             Premie = 50 * Math.Round((Premie + 24) / 50.0);
             Premie += Odmena;
             Premie = 5 * (int)Math.Round(Premie / 5.0);

@@ -1,38 +1,19 @@
-﻿using System;
+﻿using ddPlugin;
+using System;
 using System.Windows.Forms;
-using ddPlugin;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace EurogemaIN
 {
     public partial class ImportPilotyForm : Form
     {
-        private Int32 ID;
         private IHelios Helios;
-
+        private Int32 ID;
         public ImportPilotyForm(IHelios MainHelios, Int32 RecordID)
         {
             this.InitializeComponent();
             Helios = MainHelios;
             ID = RecordID;
-        }
-
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Unable to release the Object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
         }
 
         private void buttonChooseFile_Click(object sender, EventArgs e)
@@ -77,9 +58,9 @@ namespace EurogemaIN
 
             do
             {
-                if (xlWorkSheet.Range["A"+CisloRadku, "A"+CisloRadku].Value2 != null)
+                if (xlWorkSheet.Range["A" + CisloRadku, "A" + CisloRadku].Value2 != null)
                 {
-                    if ((xlWorkSheet.Range["G"+CisloRadku, "G"+CisloRadku].Value2 != null) && (xlWorkSheet.Range["G"+CisloRadku, "G"+CisloRadku].Value2 != 0))
+                    if ((xlWorkSheet.Range["G" + CisloRadku, "G" + CisloRadku].Value2 != null) && (xlWorkSheet.Range["G" + CisloRadku, "G" + CisloRadku].Value2 != 0))
                     {
                         RegCis = xlWorkSheet.Range["A" + CisloRadku, "A" + CisloRadku].Value2.ToString();
                         textBoxDebug.AppendText(RegCis);
@@ -124,7 +105,7 @@ namespace EurogemaIN
                         textBoxDebug.AppendText(Typ);
                         textBoxDebug.AppendText(Environment.NewLine);
                         CC = xlWorkSheet.Range["C" + CisloRadku, "C" + CisloRadku].Value2;
-                        SQL = "INSERT INTO TabDVV4036079C7B2E40F3B9DC2CDCF4C7201C (L_ID, P_Typ, DVAtr_Pozadavek) VALUES (" + ID.ToString() + ",'" + Typ + "'," + CC.ToString().Replace(',', '.')  + ")";
+                        SQL = "INSERT INTO TabDVV4036079C7B2E40F3B9DC2CDCF4C7201C (L_ID, P_Typ, DVAtr_Pozadavek) VALUES (" + ID.ToString() + ",'" + Typ + "'," + CC.ToString().Replace(',', '.') + ")";
                         Helios.ExecSQL(SQL);
                     }
                     CisloRadku++;
@@ -133,8 +114,6 @@ namespace EurogemaIN
                     DalsiRadek = false;
             } while (DalsiRadek);
 
-
-            
             Helios.Refresh(false);
 
             xlWorkBook.Close(false, misValue, misValue);
@@ -148,6 +127,24 @@ namespace EurogemaIN
         private void buttonKonec_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Unable to release the Object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
     }
 }
